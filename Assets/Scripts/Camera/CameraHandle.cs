@@ -25,10 +25,23 @@ public class CameraHandle : MonoBehaviour
 
     [SerializeField] LayerMask enemyMask;
 
-    [SerializeField] Image targetIcon;
+    [SerializeField] Image targetIcon;      //锁定图标图像
     public bool lockState;
+    public bool isAI = false;
 
 
+    //存取Lock物体信息
+    class TargetCol
+    {
+        public GameObject obj;
+        public float halfHeight;
+
+        public TargetCol(GameObject obj, float halfH)
+        {
+            this.obj = obj;
+            this.halfHeight = halfH;
+        }
+    }
 
     private void Awake()
     {
@@ -38,61 +51,68 @@ public class CameraHandle : MonoBehaviour
         model = ac.model;
         input = ac.input;
         tempEuler = 20f;
+
+        if (!isAI)
+        { 
         targetIcon.enabled = false;
-        lockState = false;
         cameraPos = Camera.main.gameObject;
-
         Cursor.lockState = CursorLockMode.Locked;
-    }
+        }
 
+        lockState = false;
+    }
 
     private void FixedUpdate()
     {
 
         if (lockTarget == null)
         {
-            tempModelEuler = model.transform.eulerAngles;
+            tempModelEuler = model.transform.eulerAngles;         //防止在旋转角度时候，人物旋转
 
-            horizontalHandle.transform.Rotate(Vector3.up, input.JRight * horizontalSpeed * Time.fixedDeltaTime);
+            horizontalHandle.transform.Rotate(Vector3.up, input.JRight * horizontalSpeed * Time.fixedDeltaTime);   //水平旋转
 
             tempEuler -= input.JUp * verticalSpeed * Time.fixedDeltaTime;
             tempEuler = Mathf.Clamp(tempEuler, -40f, 30f);
             verticalHandle.transform.localEulerAngles = new Vector3(tempEuler, 0, 0);
 
-            model.transform.eulerAngles = tempModelEuler;
+            model.transform.eulerAngles = tempModelEuler;         
         }
         else
         {
             Vector3 targetDir = lockTarget.obj.transform.position - model.transform.position;
             targetDir.y = 0;
-            horizontalHandle.transform.forward = targetDir;
+            horizontalHandle.transform.forward = targetDir;            
             verticalHandle.transform.LookAt(lockTarget.obj.transform);
         }
 
-        cameraPos.transform.position = Vector3.SmoothDamp(cameraPos.transform.position, transform.position, ref cameraVelocity, cameraTime);
-        //cameraPos.transform.eulerAngles = transform.eulerAngles;
-        cameraPos.transform.LookAt(verticalHandle.transform);
+        if (!isAI)
+        {
+            cameraPos.transform.position = Vector3.SmoothDamp(cameraPos.transform.position, transform.position, ref cameraVelocity, cameraTime);
+            //cameraPos.transform.eulerAngles = transform.eulerAngles;
+            cameraPos.transform.LookAt(verticalHandle.transform);
+        }
     }
 
     private void Update()
     {
         if (lockTarget != null)
         {
+            if (!isAI)
+            { 
             targetIcon.rectTransform.position = Camera.main.WorldToScreenPoint
-                (lockTarget.obj.transform.position + new Vector3(0.0f, lockTarget.halfHeight, 0.0f));
+                (lockTarget.obj.transform.position + new Vector3(0.0f, lockTarget.halfHeight, 0.0f));    //让物体根部坐标加半高转换为屏幕坐标，将锁定图像的屏幕坐标等于这个      
+            }
             if (Vector3.Distance(model.transform.position, lockTarget.obj.transform.position) > 10.0f)
             {
-                lockTarget = null;
-                targetIcon.enabled = false;
-                lockState = false;
+                LockProcess(null, false, false, isAI);
             }
         }
     }
 
+
     public void LockUnlock()
     {
         //TODO:切换多个目标
-
 
         Vector3 vec1 = model.transform.position;
         Vector3 vec2 = vec1 + new Vector3(0, 1.0f, 0);
@@ -100,11 +120,9 @@ public class CameraHandle : MonoBehaviour
 
         Collider[] cols = Physics.OverlapBox(center, new Vector3(0.5f, 0.5f, 5.0f), model.transform.rotation, enemyMask);
 
-        if (cols.Length == 0)
+        if (cols.Length == 0)          //前方没有Enemy
         {
-            lockTarget = null;
-            targetIcon.enabled = false;
-            lockState = false;
+            LockProcess(null, false, false, isAI);       
         }
         else
         {
@@ -112,28 +130,23 @@ public class CameraHandle : MonoBehaviour
             {
                 if ( lockTarget != null &&lockTarget.obj == col.gameObject)
                 {
-                    lockTarget = null;
-                    targetIcon.enabled = false;
-                    lockState = false;
+                    LockProcess(null, false, false, isAI);
                     break;
                 }
-                lockTarget = new TargetCol(col.gameObject,col.bounds.extents.y);
-                targetIcon.enabled = true;
-                lockState = true;
+                LockProcess(new TargetCol(col.gameObject, col.bounds.extents.y), true, true, isAI);    //获取检测的物件obj与半高
                 break;
             }
         }
     }
-
-    class TargetCol
-   {
-        public GameObject obj;
-        public float halfHeight;
-
-        public TargetCol(GameObject obj,float halfH)
+    void LockProcess(TargetCol _lockTarget,bool _IconEnabled,bool _lockState,bool _isAI)
+    {
+        lockTarget = _lockTarget;
+        if (!_isAI)
         {
-            this.obj = obj;
-            this.halfHeight = halfH;
+            targetIcon.enabled = _IconEnabled;
         }
-   }
+        lockState = _lockState;             //锁定旗标
+    }
+
+
 }

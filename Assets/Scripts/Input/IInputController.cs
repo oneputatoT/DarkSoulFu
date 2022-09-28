@@ -18,6 +18,11 @@ public abstract class IInputController : MonoBehaviour
     public bool attack;
     public bool lockOn;
 
+    public bool lb;
+    public bool lt;
+    public bool rb;
+    public bool rt;
+
 
 
     [Header("==== Other ====")]
@@ -34,5 +39,11 @@ public abstract class IInputController : MonoBehaviour
         output.x = input.x * Mathf.Sqrt(1 - (input.y * input.y) / 2.0f);
         output.y = input.y * Mathf.Sqrt(1 - (input.x * input.x) / 2.0f);
         return output;
+    }
+
+    protected void UpdateMove(float dUp2,float dRight2)
+    {
+        dMag = Mathf.Sqrt(dUp2 * dUp2 + dRight2 * dRight2);         //输入信号改变动画
+        dVec = dUp2 * transform.forward + dRight2 * transform.right;   //方向
     }
 }

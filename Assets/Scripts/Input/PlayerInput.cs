@@ -14,6 +14,7 @@ public class PlayerInput : IInputController
     [SerializeField] string keyB;
     [SerializeField] string keyC;
     [SerializeField] string keyD;
+    [SerializeField] string keyE;
     [SerializeField] string keyLock;
 
     [SerializeField] string keyJUp;
@@ -31,16 +32,20 @@ public class PlayerInput : IInputController
     MyBotton buttonC = new MyBotton();
     MyBotton buttonD = new MyBotton();
     MyBotton buttonLock = new MyBotton();
+    MyBotton buttonE = new MyBotton();
 
     private void Update()
     {
         bottonA.Tick(Input.GetKey(keyA));
         buttonB.Tick(Input.GetKey(keyB));
-        buttonC.Tick(Input.GetKey(keyC));
-        buttonD.Tick(Input.GetKey(keyD));
+        buttonC.Tick(Input.GetKey(keyC));    //右手攻击
+        buttonD.Tick(Input.GetKey(keyD));    //防御
+        buttonE.Tick(Input.GetKey(keyE));    //左手攻击
         buttonLock.Tick(Input.GetKey(keyLock));
 
         //Debug.Log(bottonB.isExtending && bottonB.onPressed);
+
+        
 
         if (mouseEnable)
         {
@@ -72,17 +77,22 @@ public class PlayerInput : IInputController
         dMag = Mathf.Sqrt(dUp2 * dUp2 + dRight2 * dRight2);         //输入信号改变动画
         dVec = dUp2 * transform.forward + dRight2 * transform.right;   //方向
 
-        run = (buttonB.isPressing && !buttonB.isDelaying)||buttonB.isExtending;
+        run = (buttonB.isPressing && !buttonB.isDelaying)||buttonB.isExtending;      //在按下去瞬间再延迟几秒再来反应是否长按
 
         defense = buttonD.isPressing;
 
-        jump = buttonB.onPressed && buttonB.isExtending;
+        jump = buttonB.isExtending && buttonB.onPressed;    //按下之后快速再按一次（快速按两次来判断跳跃）
 
-        attack = buttonC.onPressed;
+        //attack = buttonC.onPressed;
 
-        roll = buttonB.onRelease && buttonB.isDelaying;
+        rb = buttonC.onPressed;
+        lb = buttonE.onPressed;
+
+        roll = buttonB.isDelaying && buttonB.onRelease ;    //快速按下一次，判断滚动
 
         lockOn = buttonLock.onPressed;
+
+
         //bool newJump = Input.GetKey(keyB);
         //if (newJump != lastJump && newJump == true)
         //{

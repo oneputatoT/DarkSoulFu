@@ -413,7 +413,7 @@ ModelImporter:
     second: //RootNode
   - first:
       74: 7400000
-    second: attack
+    second: attack1hA
   - first:
       95: 9500000
     second: //RootNode
@@ -446,7 +446,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: attack
+      name: attack1hA
       takeName: mixamo.com
       internalID: 0
       firstFrame: 0
@@ -495,9 +495,23 @@ ModelImporter:
           postInfinity: 3
           rotationOrder: 4
       events:
+      - time: 0.35552704
+        functionName: WeaponEnable
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       - time: 0.39939025
         functionName: RestTrigger
         data: attack
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.43627346
+        functionName: WeaponDisable
+        data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
