@@ -7,7 +7,7 @@ public class ActorController : MonoBehaviour
 {
     public GameObject model;
     CapsuleCollider col;
-    [SerializeField] CameraHandle cameraHandle;
+    [SerializeField] public CameraHandle cameraHandle;
     [SerializeField] Animator anim;
     public IInputController input;
     Rigidbody rd;
@@ -91,7 +91,7 @@ public class ActorController : MonoBehaviour
         //Ëø¶¨ÐÅºÅ¼ü
         if (input.lockOn)
         {
-            cameraHandle.LockUnlock();
+            cameraHandle?.LockUnlock();
         }
 
         
@@ -164,7 +164,7 @@ public class ActorController : MonoBehaviour
     }
 
 
-    private bool CheckState(string stateName, string layerName = "Base Layer") 
+    public bool CheckState(string stateName, string layerName = "Base Layer") 
         => anim.GetCurrentAnimatorStateInfo(anim.GetLayerIndex(layerName)).IsName(stateName);
 
     public bool CheckStateTag(string tagName, string layerName = "Base Layer")

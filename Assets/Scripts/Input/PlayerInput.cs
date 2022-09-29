@@ -39,8 +39,8 @@ public class PlayerInput : IInputController
         bottonA.Tick(Input.GetKey(keyA));
         buttonB.Tick(Input.GetKey(keyB));
         buttonC.Tick(Input.GetKey(keyC));    //右手攻击
-        buttonD.Tick(Input.GetKey(keyD));    //防御
-        buttonE.Tick(Input.GetKey(keyE));    //左手攻击
+        buttonD.Tick(Input.GetKey(keyD));    
+        buttonE.Tick(Input.GetKey(keyE));    //左手攻击 或者 防御
         buttonLock.Tick(Input.GetKey(keyLock));
 
         //Debug.Log(bottonB.isExtending && bottonB.onPressed);
@@ -79,7 +79,9 @@ public class PlayerInput : IInputController
 
         run = (buttonB.isPressing && !buttonB.isDelaying)||buttonB.isExtending;      //在按下去瞬间再延迟几秒再来反应是否长按
 
-        defense = buttonD.isPressing;
+        //defense = buttonD.isPressing;
+
+        defense = buttonE.isPressing;
 
         jump = buttonB.isExtending && buttonB.onPressed;    //按下之后快速再按一次（快速按两次来判断跳跃）
 

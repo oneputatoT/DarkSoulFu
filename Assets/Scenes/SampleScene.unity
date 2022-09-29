@@ -812,7 +812,7 @@ MonoBehaviour:
   keyB: space
   keyC: mouse 0
   keyD: mouse 1
-  keyE: j
+  keyE: mouse 1
   keyLock: tab
   keyJUp: up
   keyJDown: down
@@ -850,7 +850,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   am: {fileID: 0}
+  MAXHP: 50
   HP: 50
+  isGround: 0
+  isJump: 0
+  isFall: 0
+  isRoll: 0
+  isJab: 0
+  isAttack: 0
+  isHit: 0
+  isDie: 0
+  isDefense: 0
 --- !u!1 &365244077
 GameObject:
   m_ObjectHideFlags: 0

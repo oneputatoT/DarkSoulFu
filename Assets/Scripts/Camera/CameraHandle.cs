@@ -148,5 +148,10 @@ public class CameraHandle : MonoBehaviour
         lockState = _lockState;             //Ëø¶¨Æì±ê
     }
 
+    public void UnLock()
+    {
+        LockProcess(null, false, false, isAI);
+    }
+
 
 }

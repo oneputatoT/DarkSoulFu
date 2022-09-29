@@ -21,7 +21,9 @@ public class BattleManager : IActorManager
         
         if(other.CompareTag("Weapon"))
         { 
-            am.DoDamage(); 
+            am.TryDoDamage(); 
         } 
     }
 }
+
+

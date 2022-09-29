@@ -23,8 +23,6 @@ public static class HelperDeepFind
                 }
             }
         }
-
-        return null;
-    
+        return null;    
     }
 }

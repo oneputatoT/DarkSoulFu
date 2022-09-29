@@ -18,7 +18,6 @@ public class ActorManager : MonoBehaviour
         bm = Bind<BattleManager>(sensor);
         wm = Bind<WeaponManager>(model);
         sm = Bind<StateManager>(gameObject);
-        sm.Test();
     }
 
     public T Bind<T>(GameObject go) where T : IActorManager
@@ -33,8 +32,27 @@ public class ActorManager : MonoBehaviour
         return temp;
     }
 
-    public void DoDamage()
+    public void TryDoDamage()
+    {
+        if (sm.HP > 0)
+        {
+            sm.UpdateHP(5, -1);
+        }
+    }
+
+    public void Hit()
     {
         ac.issueTrigger("hit");
+    }
+
+    public void Death()
+    {
+        ac.issueTrigger("die");
+        ac.input.isEnable = false;
+        if (ac.cameraHandle.lockState)
+        {
+            ac.cameraHandle.UnLock();
+        }
+        ac.cameraHandle.enabled = false;
     }
 }

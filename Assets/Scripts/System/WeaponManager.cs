@@ -16,6 +16,7 @@ public class WeaponManager : IActorManager
         whR = transform.DeepFind("weaponHandleR");
         collR = whR.GetComponentInChildren<Collider>();
         collL = whL.GetComponentInChildren<Collider>();
+        
     }
     public void WeaponEnable()
     {
@@ -33,5 +34,7 @@ public class WeaponManager : IActorManager
     {
         collL.enabled = false;
         collR.enabled = false;
+
+        
     }
 }
