@@ -72,7 +72,7 @@ public class ActorController : MonoBehaviour
         #region Shield
         if (isLeftSheid)
         {
-            if (CheckState("ground"))
+            if (CheckState("ground")||CheckState("blocked"))
             {
                 anim.SetLayerWeight(anim.GetLayerIndex("defense"), 1);
                 anim.SetBool("defense", input.defense);
@@ -80,6 +80,7 @@ public class ActorController : MonoBehaviour
             else
             {
                 anim.SetBool("defense", false);
+                anim.SetLayerWeight(anim.GetLayerIndex("defense"), 0);
             }
         }
         else
@@ -107,7 +108,7 @@ public class ActorController : MonoBehaviour
             canAttack = false;
         }
 
-        //ÅÐ¶Ï¹¥»÷
+        //ÅÐ¶ÏÇá¹¥»÷
         if ((input.lb||input.rb) && (CheckState("ground") || CheckStateTag("attackL")|| CheckStateTag("attackR")) &&canAttack)
         {
             if (input.lb && !isLeftSheid)
@@ -119,6 +120,26 @@ public class ActorController : MonoBehaviour
             {
                 anim.SetBool("R0L1", false);
                 anim.SetTrigger("attack");
+            }
+        }
+
+        //ÅÐ¶ÏÖØ¹¥»÷  Or ¶Ü·´
+        if ((input.lt || input.rt) && (CheckState("ground") || CheckStateTag("attackL") || CheckStateTag("attackR")) && canAttack)
+        {
+            if (input.rt)
+            {
+
+            }
+            else
+            {
+                if (!isLeftSheid)
+                {
+
+                }
+                else
+                {
+                    issueTrigger("counterBack");
+                }
             }
         }
 
@@ -276,11 +297,35 @@ public class ActorController : MonoBehaviour
     public void OnHitEnter()
     {
         input.isEnable = false;
+        model.SendMessage("WeaponDisable");
         planarVelocity = Vector3.zero;
     }
 
     public void issueTrigger(string name)
     {
         anim.SetTrigger(name);
+    }
+
+    public void OnBlockedEnter()
+    {
+        input.isEnable = false;
+    }
+
+    public void OnDieEnter()
+    {
+        planarVelocity = Vector3.zero;
+        model.SendMessage("WeaponDisable");
+    }
+
+    public void OnCounterBackEnter()
+    {
+        input.isEnable = false;
+        planarVelocity = Vector3.zero;
+    }
+
+    public void OnStunnedEnter()
+    {
+        input.isEnable = false;
+        planarVelocity = Vector3.zero;
     }
 }

@@ -35,11 +35,13 @@ public class CameraHandle : MonoBehaviour
     {
         public GameObject obj;
         public float halfHeight;
+        public ActorManager am;
 
         public TargetCol(GameObject obj, float halfH)
         {
             this.obj = obj;
             this.halfHeight = halfH;
+            am = obj.GetComponent<ActorManager>();
         }
     }
 
@@ -102,9 +104,9 @@ public class CameraHandle : MonoBehaviour
             targetIcon.rectTransform.position = Camera.main.WorldToScreenPoint
                 (lockTarget.obj.transform.position + new Vector3(0.0f, lockTarget.halfHeight, 0.0f));    //让物体根部坐标加半高转换为屏幕坐标，将锁定图像的屏幕坐标等于这个      
             }
-            if (Vector3.Distance(model.transform.position, lockTarget.obj.transform.position) > 10.0f)
+            if (Vector3.Distance(model.transform.position, lockTarget.obj.transform.position) > 10.0f||(lockTarget.am!=null&&lockTarget.am.sm.isDie))
             {
-                LockProcess(null, false, false, isAI);
+                UnLock();
             }
         }
     }

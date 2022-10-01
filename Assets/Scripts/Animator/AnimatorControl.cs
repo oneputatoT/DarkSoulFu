@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class AnimatorControl : MonoBehaviour
 {
+    
+
     [Header("Root Motion")]
     Animator anim;
 
@@ -11,6 +13,8 @@ public class AnimatorControl : MonoBehaviour
     {
         anim = GetComponent<Animator>();
     }
+
+    //¹¥»÷Ê±ºòµÄRootMotion
 
     private void OnAnimatorMove()
     {

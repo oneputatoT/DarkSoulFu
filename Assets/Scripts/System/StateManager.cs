@@ -17,7 +17,16 @@ public class StateManager : IActorManager
     public bool isAttack;
     public bool isHit;
     public bool isDie;
+    public bool isBlocked;
     public bool isDefense;
+    public bool isCountBack;
+    public bool isCountBackEnable;
+
+
+    [Header("======Allow Trigger====")]
+    public bool isAllowDefense;
+    public bool isImmortal;
+    public bool isCountBackFail;
 
     private void Update()
     {
@@ -29,21 +38,21 @@ public class StateManager : IActorManager
         isFall = am.ac.CheckState("fall");
         isRoll = am.ac.CheckState("roll");
         isAttack = am.ac.CheckStateTag("attackR")|| am.ac.CheckStateTag("attackL");
-        isDefense = am.ac.CheckState("defense1h", "defense");
+        isBlocked = am.ac.CheckState("blocked");
+        isCountBack = am.ac.CheckState("counterBack");
+
+        isAllowDefense = isGround || isBlocked;
+        isDefense = isAllowDefense&&am.ac.CheckState("defense1h", "defense");
+
+        isImmortal = isRoll || isJab;
+
+        isCountBackFail = isCountBack && !isCountBackEnable;
     }
 
 
     public void UpdateHP(float value, float temp=1.0f)
     {
         HP = Mathf.Clamp(HP + temp * value, 0, MAXHP);
-        if (HP > 0)
-        {
-            am.Hit();
-        }
-        else
-        {
-            am.Death();
-        }
         Debug.Log(am.gameObject.name + " : "+HP);
     }
 }

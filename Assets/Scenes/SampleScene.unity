@@ -130,7 +130,35 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 350213901}
     m_Modifications:
+    - target: {fileID: 100000, guid: 1ca7a7a6afda43546bd0e1bba3aec6bd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 1ca7a7a6afda43546bd0e1bba3aec6bd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100004, guid: 1ca7a7a6afda43546bd0e1bba3aec6bd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: 1ca7a7a6afda43546bd0e1bba3aec6bd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100032, guid: 1ca7a7a6afda43546bd0e1bba3aec6bd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100034, guid: 1ca7a7a6afda43546bd0e1bba3aec6bd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 100036, guid: 1ca7a7a6afda43546bd0e1bba3aec6bd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100176, guid: 1ca7a7a6afda43546bd0e1bba3aec6bd, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -633,6 +661,8 @@ MonoBehaviour:
   am: {fileID: 0}
   collL: {fileID: 0}
   collR: {fileID: 0}
+  WCL: {fileID: 0}
+  WCR: {fileID: 0}
   whL: {fileID: 0}
   whR: {fileID: 0}
 --- !u!1 &291795764
@@ -811,8 +841,9 @@ MonoBehaviour:
   keyA: left shift
   keyB: space
   keyC: mouse 0
-  keyD: mouse 1
+  keyD: r
   keyE: mouse 1
+  keyF: mouse 2
   keyLock: tab
   keyJUp: up
   keyJDown: down
@@ -860,7 +891,13 @@ MonoBehaviour:
   isAttack: 0
   isHit: 0
   isDie: 0
+  isBlocked: 0
   isDefense: 0
+  isCountBack: 0
+  isCountBackEnable: 0
+  isAllowDefense: 0
+  isImmortal: 0
+  isCountBackFail: 0
 --- !u!1 &365244077
 GameObject:
   m_ObjectHideFlags: 0
@@ -987,6 +1024,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11c8bbfe011def44c85f267f8aaebdec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wm: {fileID: 0}
 --- !u!1 &554951931
 GameObject:
   m_ObjectHideFlags: 0
@@ -2400,6 +2438,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 350213901}
     m_Modifications:
+    - target: {fileID: 100000, guid: 2f9d958fbcd96e44ca35a77a15e3187a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 2f9d958fbcd96e44ca35a77a15e3187a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 100138, guid: 2f9d958fbcd96e44ca35a77a15e3187a, type: 3}
       propertyPath: m_Name
       value: ybot
@@ -2418,7 +2464,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400138, guid: 2f9d958fbcd96e44ca35a77a15e3187a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.65
       objectReference: {fileID: 0}
     - target: {fileID: 400138, guid: 2f9d958fbcd96e44ca35a77a15e3187a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2560,6 +2606,8 @@ MonoBehaviour:
   am: {fileID: 0}
   collL: {fileID: 0}
   collR: {fileID: 0}
+  WCL: {fileID: 0}
+  WCR: {fileID: 0}
   whL: {fileID: 0}
   whR: {fileID: 0}
 --- !u!1 &2026029815

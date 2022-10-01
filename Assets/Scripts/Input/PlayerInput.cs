@@ -15,6 +15,7 @@ public class PlayerInput : IInputController
     [SerializeField] string keyC;
     [SerializeField] string keyD;
     [SerializeField] string keyE;
+    [SerializeField] string keyF;
     [SerializeField] string keyLock;
 
     [SerializeField] string keyJUp;
@@ -33,19 +34,20 @@ public class PlayerInput : IInputController
     MyBotton buttonD = new MyBotton();
     MyBotton buttonLock = new MyBotton();
     MyBotton buttonE = new MyBotton();
+    MyBotton buttonF = new MyBotton();
 
     private void Update()
     {
         bottonA.Tick(Input.GetKey(keyA));
         buttonB.Tick(Input.GetKey(keyB));
         buttonC.Tick(Input.GetKey(keyC));    //右手攻击
-        buttonD.Tick(Input.GetKey(keyD));    
+        buttonD.Tick(Input.GetKey(keyD));    //左键触发，盾反 或者 左重攻击
         buttonE.Tick(Input.GetKey(keyE));    //左手攻击 或者 防御
         buttonLock.Tick(Input.GetKey(keyLock));
-
+        buttonF.Tick(Input.GetKey(keyF));
         //Debug.Log(bottonB.isExtending && bottonB.onPressed);
 
-        
+
 
         if (mouseEnable)
         {
@@ -89,6 +91,10 @@ public class PlayerInput : IInputController
 
         rb = buttonC.onPressed;
         lb = buttonE.onPressed;
+
+        lt = buttonD.onPressed;
+        rt = buttonF.onPressed;
+
 
         roll = buttonB.isDelaying && buttonB.onRelease ;    //快速按下一次，判断滚动
 
