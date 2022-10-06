@@ -124,4 +124,9 @@ public class ActorManager : MonoBehaviour
         }
         ac.cameraHandle.enabled = false;
     }
+
+    public void LockAnimation(string name,bool value)
+    {
+        ac.SetBool(name, value);
+    }
 }

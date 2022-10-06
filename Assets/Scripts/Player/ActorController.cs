@@ -306,6 +306,11 @@ public class ActorController : MonoBehaviour
         anim.SetTrigger(name);
     }
 
+    public void SetBool(string str,bool value)
+    {
+        anim.SetBool(str, value);
+    }
+
     public void OnBlockedEnter()
     {
         input.isEnable = false;
@@ -321,6 +326,11 @@ public class ActorController : MonoBehaviour
     {
         input.isEnable = false;
         planarVelocity = Vector3.zero;
+    }
+
+    public void OnCounterBackExit()
+    {
+        SendMessage("SetCountBackState", false);
     }
 
     public void OnStunnedEnter()

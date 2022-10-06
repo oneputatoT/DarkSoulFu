@@ -30,7 +30,7 @@ public class BattleManager : IActorManager
         float attackerAngle = Vector3.Angle(attack.wm.am.transform.forward, attacktDirection);
         float counterAngle = Vector3.Angle(am.transform.forward, counterDireaction);
         float faceAngle = Vector3.Angle(am.transform.forward, attack.wm.am.transform.forward);
-        Debug.Log(attackerAngle);
+        //Debug.Log(attackerAngle);
 
         bool attatckEnable = attackerAngle < 45f;
         bool counterEnable = counterAngle < 30f &&Mathf.Abs(faceAngle-180f)<30f;
