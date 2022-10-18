@@ -28,7 +28,7 @@ public class PlayerInput : IInputController
     [SerializeField] float sensitivityX;
     [SerializeField] float sensitivityY;
 
-    MyBotton bottonA = new MyBotton();
+    MyBotton buttonA = new MyBotton();
     MyBotton buttonB = new MyBotton();
     MyBotton buttonC = new MyBotton();
     MyBotton buttonD = new MyBotton();
@@ -38,7 +38,7 @@ public class PlayerInput : IInputController
 
     private void Update()
     {
-        bottonA.Tick(Input.GetKey(keyA));
+        buttonA.Tick(Input.GetKey(keyA));
         buttonB.Tick(Input.GetKey(keyB));
         buttonC.Tick(Input.GetKey(keyC));    //右手攻击
         buttonD.Tick(Input.GetKey(keyD));    //左键触发，盾反 或者 左重攻击
@@ -94,6 +94,8 @@ public class PlayerInput : IInputController
 
         lt = buttonD.onPressed;
         rt = buttonF.onPressed;
+
+        action = buttonA.onPressed;
 
 
         roll = buttonB.isDelaying && buttonB.onRelease ;    //快速按下一次，判断滚动

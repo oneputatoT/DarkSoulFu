@@ -8,7 +8,11 @@ public class ActorManager : MonoBehaviour
     GameObject model;
     [SerializeField] WeaponManager wm;
     [SerializeField] BattleManager bm;
+    [SerializeField] DirectiorManager dm;
+    [SerializeField] InteractionManager im;
     public StateManager sm;
+
+
     private void Awake()
     {
         ac = GetComponent<ActorController>();
@@ -18,6 +22,52 @@ public class ActorManager : MonoBehaviour
         bm = Bind<BattleManager>(sensor);
         wm = Bind<WeaponManager>(model);
         sm = Bind<StateManager>(gameObject);
+        dm = Bind<DirectiorManager>(gameObject);
+        im = Bind<InteractionManager>(sensor);
+    }
+
+    private void OnEnable()
+    {
+        ac.OnActionEvent += DoAction;
+    }
+
+
+    private void OnDisable()
+    {
+        ac.OnActionEvent -= DoAction;
+    }
+
+    public void DoAction()
+    {
+        if (im.eventCasterList.Count != 0)
+        {
+            if (!im.eventCasterList[0].active) return;
+
+            if (im.eventCasterList[0].eventName == "FrontStab")
+            {
+                dm.PlaySpecialTimeLine("FrontStab", this, im.eventCasterList[0].am);
+            }
+            else if (im.eventCasterList[0].eventName == "OpenBox")
+            {
+                if (bm.CheckCounterable(im.eventCasterList[0].Parent, 30f))
+                {
+                    im.eventCasterList[0].active = false;
+                    transform.position = im.eventCasterList[0].Offset;
+                    ac.model.transform.LookAt(im.eventCasterList[0].Parent.transform, Vector3.up);
+                    dm.PlaySpecialTimeLine("OpenBox", this, im.eventCasterList[0].anim);
+                }
+            }
+            else if (im.eventCasterList[0].eventName == "LeverUp")
+            {
+                if (bm.CheckCounterable(im.eventCasterList[0].Parent, 30f))
+                {
+                    im.eventCasterList[0].active = false;
+                    transform.position = im.eventCasterList[0].Offset;
+                    ac.model.transform.LookAt(im.eventCasterList[0].Parent.transform, Vector3.up);
+                    dm.PlaySpecialTimeLine("LeverUp", this, im.eventCasterList[0].anim);
+                }
+            }
+        }
     }
 
     public T Bind<T>(GameObject go) where T : IActorManager
@@ -125,8 +175,13 @@ public class ActorManager : MonoBehaviour
         ac.cameraHandle.enabled = false;
     }
 
-    public void LockAnimation(string name,bool value)
+    public void SetBool(string name,bool value)
     {
         ac.SetBool(name, value);
+    }
+
+    public void LockAnimation(bool value)
+    {
+        ac.SetBool("lock", value);
     }
 }

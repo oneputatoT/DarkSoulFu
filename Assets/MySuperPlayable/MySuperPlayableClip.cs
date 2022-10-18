@@ -7,7 +7,7 @@ using UnityEngine.Timeline;
 public class MySuperPlayableClip : PlayableAsset, ITimelineClipAsset
 {
     public MySuperPlayableBehaviour template = new MySuperPlayableBehaviour ();
-    public ExposedReference<GameObject> Camera;
+    public ExposedReference<ActorManager> am;
 
     public ClipCaps clipCaps
     {
@@ -18,7 +18,10 @@ public class MySuperPlayableClip : PlayableAsset, ITimelineClipAsset
     {
         var playable = ScriptPlayable<MySuperPlayableBehaviour>.Create (graph, template);
         MySuperPlayableBehaviour clone = playable.GetBehaviour ();
-        clone.Camera = Camera.Resolve (graph.GetResolver ());
+        //am.exposedName = GetInstanceID().ToString();      //分配内存地址，作为键
+        clone.am = am.Resolve (graph.GetResolver ());
         return playable;
     }
+
+    
 }

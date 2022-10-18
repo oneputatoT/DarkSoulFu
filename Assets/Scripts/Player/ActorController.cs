@@ -9,6 +9,7 @@ public class ActorController : MonoBehaviour
     CapsuleCollider col;
     [SerializeField] public CameraHandle cameraHandle;
     [SerializeField] Animator anim;
+    public Animator Anim => anim;
     public IInputController input;
     Rigidbody rd;
 
@@ -30,6 +31,9 @@ public class ActorController : MonoBehaviour
     bool lockTarget=false;          
     bool canAttack;
     public bool isLeftSheid = true;
+
+    public delegate void OnActionDelegate();
+    public event OnActionDelegate OnActionEvent;
 
 
     Vector3 thrustVec;
@@ -143,10 +147,16 @@ public class ActorController : MonoBehaviour
             }
         }
 
+        if (input.action)
+        {
+            OnActionEvent.Invoke();
+        }
+
+
         //旋转模型方向
         if (!cameraHandle.lockState)   //没有锁定时
         {
-            if (input.dMag > 0.1f)
+            if (input.dMag > 0.1f&&input.isEnable)
             {
                 model.transform.forward = Vector3.Slerp(model.transform.forward, input.dVec, 0.2f);
             }
@@ -337,5 +347,12 @@ public class ActorController : MonoBehaviour
     {
         input.isEnable = false;
         planarVelocity = Vector3.zero;
+    }
+
+    public void OnStabEnter()
+    {
+        input.isEnable = false;
+        planarVelocity = Vector3.zero;
+        model.SendMessage("WeaponDisable");
     }
 }

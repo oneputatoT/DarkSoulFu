@@ -18,28 +18,56 @@ public class BattleManager : IActorManager
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!other.CompareTag("Weapon")) return;
 
         other.transform.parent.TryGetComponent<WeaponControl>(out WeaponControl attack);
       
         
 
-        Vector3 attacktDirection = am.transform.position - attack.wm.am.gameObject.transform.position;
-        Vector3 counterDireaction = attack.wm.am.gameObject.transform.position - am.transform.position;
-
-
-        float attackerAngle = Vector3.Angle(attack.wm.am.transform.forward, attacktDirection);
-        float counterAngle = Vector3.Angle(am.transform.forward, counterDireaction);
-        float faceAngle = Vector3.Angle(am.transform.forward, attack.wm.am.transform.forward);
         //Debug.Log(attackerAngle);
 
-        bool attatckEnable = attackerAngle < 45f;
-        bool counterEnable = counterAngle < 30f &&Mathf.Abs(faceAngle-180f)<30f;
+        bool attatckEnable = CheckAttackable(attack,45f);
+        bool counterEnable = CheckCounterable(attack, 30f);
 
-        
-        if(other.CompareTag("Weapon"))
+
+
+        if (other.CompareTag("Weapon"))
         { 
             am.TryDoDamage(attack, attatckEnable, counterEnable); 
         } 
+    }
+
+    //ÅÐ¶Ï¹¥»÷ÊÇ·ñÉúÐ§
+    public bool CheckAttackable(WeaponControl attack,float radius)
+    {
+
+        Vector3 attacktDirection = am.transform.position - attack.wm.am.gameObject.transform.position;
+        float attackerAngle = Vector3.Angle(attack.wm.am.transform.forward, attacktDirection);
+
+        bool attatckEnable = attackerAngle < radius;
+
+        return attatckEnable;
+    }
+
+    //
+    public bool CheckCounterable(WeaponControl attack, float radius)
+    {
+        Vector3 counterDireaction = attack.wm.am.gameObject.transform.position - am.transform.position;
+
+        float counterAngle = Vector3.Angle(am.transform.forward, counterDireaction);
+        float faceAngle = Vector3.Angle(am.transform.forward, attack.wm.am.transform.forward);
+
+        return counterAngle < 30f && Mathf.Abs(faceAngle - 180f) < 30f;
+    }
+
+    public bool CheckCounterable(GameObject item, float radius)
+    {
+        Vector3 counterDireaction = item.transform.position - am.transform.position;
+
+        float counterAngle = Vector3.Angle(am.transform.forward, counterDireaction);
+        float faceAngle = Vector3.Angle(am.transform.forward, item.transform.forward);
+
+        return counterAngle < radius && Mathf.Abs(faceAngle - 180f) < radius;
     }
 }
 

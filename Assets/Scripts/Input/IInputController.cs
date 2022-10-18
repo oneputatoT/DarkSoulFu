@@ -23,6 +23,8 @@ public abstract class IInputController : MonoBehaviour
     public bool rb;
     public bool rt;
 
+    public bool action;
+
 
 
     [Header("==== Other ====")]

@@ -53,6 +53,6 @@ public class StateManager : IActorManager
     public void UpdateHP(float value, float temp=1.0f)
     {
         HP = Mathf.Clamp(HP + temp * value, 0, MAXHP);
-        Debug.Log(am.gameObject.name + " : "+HP);
+        //Debug.Log(am.gameObject.name + " : "+HP);
     }
 }
