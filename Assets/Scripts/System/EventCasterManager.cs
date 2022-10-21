@@ -27,4 +27,19 @@ public class EventCasterManager : IActorManager
         }
         
     }
+
+    public void DoSomething()
+    {
+        StopAllCoroutines();
+        StartCoroutine(nameof(WaitForActive));
+    }
+
+    IEnumerator WaitForActive()
+    {
+        active = true;
+
+        yield return new WaitForSeconds(3.0f);
+
+        active = false;
+    }
 }

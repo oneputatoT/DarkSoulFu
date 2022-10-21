@@ -58,7 +58,7 @@ public class CameraHandle : MonoBehaviour
         { 
         targetIcon.enabled = false;
         cameraPos = Camera.main.gameObject;
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.lockState = CursorLockMode.Locked;
         }
 
         lockState = false;

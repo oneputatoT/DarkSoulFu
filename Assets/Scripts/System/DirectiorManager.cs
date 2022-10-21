@@ -35,10 +35,14 @@ public class DirectiorManager : IActorManager
         //}
     }
 
+    public bool IsPlaying()
+    {
+        return pd.state == PlayState.Playing;
+    }
+
+
     public void PlaySpecialTimeLine(string name, ActorManager attack, ActorManager victim)
     {
-        if (pd.state==PlayState.Playing) return;
-
 
         if (name == "FrontStab")
         {

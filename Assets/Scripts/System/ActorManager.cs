@@ -12,6 +12,8 @@ public class ActorManager : MonoBehaviour
     [SerializeField] InteractionManager im;
     public StateManager sm;
 
+    public RuntimeAnimatorController oneHand;
+    public RuntimeAnimatorController twoHand;
 
     private void Awake()
     {
@@ -41,7 +43,7 @@ public class ActorManager : MonoBehaviour
     {
         if (im.eventCasterList.Count != 0)
         {
-            if (!im.eventCasterList[0].active) return;
+            if (!im.eventCasterList[0].active||dm.IsPlaying()) return;
 
             if (im.eventCasterList[0].eventName == "FrontStab")
             {
@@ -50,8 +52,7 @@ public class ActorManager : MonoBehaviour
             else if (im.eventCasterList[0].eventName == "OpenBox")
             {
                 if (bm.CheckCounterable(im.eventCasterList[0].Parent, 30f))
-                {
-                    im.eventCasterList[0].active = false;
+                {                    
                     transform.position = im.eventCasterList[0].Offset;
                     ac.model.transform.LookAt(im.eventCasterList[0].Parent.transform, Vector3.up);
                     dm.PlaySpecialTimeLine("OpenBox", this, im.eventCasterList[0].anim);
@@ -60,13 +61,13 @@ public class ActorManager : MonoBehaviour
             else if (im.eventCasterList[0].eventName == "LeverUp")
             {
                 if (bm.CheckCounterable(im.eventCasterList[0].Parent, 30f))
-                {
-                    im.eventCasterList[0].active = false;
+                {                    
                     transform.position = im.eventCasterList[0].Offset;
                     ac.model.transform.LookAt(im.eventCasterList[0].Parent.transform, Vector3.up);
                     dm.PlaySpecialTimeLine("LeverUp", this, im.eventCasterList[0].anim);
                 }
             }
+            im.eventCasterList[0].active = false;
         }
     }
 
@@ -89,21 +90,25 @@ public class ActorManager : MonoBehaviour
             return;
         }
 
-        if (sm.isCountBackEnable)
+        if (sm.isCountBackEnable) //盾反有效期间
         {
             if (counterEnable)
             {
                 attack.wm.am.SetStunned();
+                if (im.eventCasterList.Count!=0&&im.eventCasterList[0].eventName == "FrontStab")
+                {
+                    im.eventCasterList[0].DoSomething();
+                }
             }
         }
-        else if (sm.isCountBackFail)
+        else if (sm.isCountBackFail) //盾反无效期间
         {
             if (attatckEnable)
             {
-                HitOrDie(false);
+                HitOrDie(attack, false);
             }
         }
-        else if (sm.isDefense)
+        else if (sm.isDefense) //防御
         {
             Blocked();
         }
@@ -117,7 +122,7 @@ public class ActorManager : MonoBehaviour
             {
                 if (attatckEnable)
                 { 
-                    HitOrDie(true);               
+                    HitOrDie(attack,true);               
                 }
             }
         }
@@ -133,9 +138,9 @@ public class ActorManager : MonoBehaviour
         ac.issueTrigger("stunned");
     }
 
-    public void HitOrDie(bool showHit)
+    public void HitOrDie(WeaponControl attack,bool showHit)
     {
-        sm.UpdateHP(5, -1);
+        sm.UpdateHP(attack.GetATK(), -1);
         if (sm.HP > 0)
         {
             if (showHit)
@@ -183,5 +188,17 @@ public class ActorManager : MonoBehaviour
     public void LockAnimation(bool value)
     {
         ac.SetBool("lock", value);
+    }
+
+    public void ChangeHand(bool isTwoHand)
+    {
+        if (isTwoHand)
+        {
+            ac.Anim.runtimeAnimatorController = twoHand;
+        }
+        else
+        {
+            ac.Anim.runtimeAnimatorController = oneHand;
+        }
     }
 }

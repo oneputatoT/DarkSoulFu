@@ -8,6 +8,8 @@ public class StateManager : IActorManager
 
     public float HP = 15;
 
+    public float ATK;
+
     [Header("=====State Flags=====")]
     public bool isGround;
     public bool isJump;

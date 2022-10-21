@@ -38,6 +38,50 @@ public class WeaponManager : IActorManager
         return temp;
     }
 
+
+    public void UpdateWeapon(string side,Collider col)
+    {
+        if (side == "R")
+        {
+            collR = col;
+        }
+        else if (side == "L")
+        {
+            collL = col;
+        }
+    }
+
+    public void UnLoadWeapon(string side)
+    {
+        if (side == "R")
+        {
+            collR = null;
+            WCR.data = null;
+            foreach (Transform obj in WCR.transform)
+            {
+                obj.gameObject.SetActive(false);
+                Destroy(obj.gameObject,2.0f);
+            }
+        }
+        else if (side == "L")
+        {
+            collL = null;
+            WCL.data = null;
+            foreach (Transform obj in WCL.transform)
+            {
+                obj.gameObject.SetActive(false);
+                Destroy(obj.gameObject,1.0f);
+            }
+        }
+    }
+
+    public void ChangeHand(bool isTwoHand)
+    {
+        am.ChangeHand(isTwoHand);
+    }
+
+
+
     public void WeaponEnable()
     {
         if (am.ac.CheckStateTag("attackR"))
@@ -49,7 +93,6 @@ public class WeaponManager : IActorManager
         collL.enabled = true;
         }
     }
-
     public void WeaponDisable()
     {
         collL.enabled = false;
